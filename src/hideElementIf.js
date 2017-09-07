@@ -26,7 +26,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab5",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "82"
 	    	},
 	    	{
@@ -35,7 +35,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab7",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "80"
 	    	},
 	    	{
@@ -44,7 +44,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab8",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "81"
 	    	},
 	    	{
@@ -53,7 +53,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab6",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "83"
 	    	},
 	    	{
@@ -62,7 +62,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab0",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "2"
 	    	},
 	    	{
@@ -71,7 +71,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab1",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "3"
 	    	},
 	    	{
@@ -80,7 +80,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab2",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "3"
 	    	},
 	    	{
@@ -89,7 +89,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab3",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "3"
 	    	},
 	    	{
@@ -98,7 +98,7 @@
 	    		"type" : "tab", 
 	    		"id" : "tab4",
 	    		"property" : "id",
-	    		"sign"  : "=",
+	    		"operator"  : "=",
 	    		"value" : "1"
 	    	}
 		],
@@ -153,7 +153,7 @@
         if(this.config && this.config.hasOwnProperty(this.viewName)) {
     		for (var i = 0; i < this.config[this.viewName].length; i += 1) {
     			var config = this.config[this.viewName][i];
-    			if(config.hasOwnProperty("property") && config.hasOwnProperty("sign") && config.hasOwnProperty("value")) {
+    			if(config.hasOwnProperty("property") && config.hasOwnProperty("operator") && config.hasOwnProperty("value")) {
     				doAction = this.isActionToDo(rootNode,config);
     			}
     			if(doAction) {
@@ -171,7 +171,7 @@
         	} else {
         		objPropertyValue = rootNode.properties[config.property];
         	}
-        	switch(config.sign) {
+        	switch(config.operator) {
 			    case "=":
 			        if(objPropertyValue == config.value) return true;
 			        break;
