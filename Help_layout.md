@@ -52,7 +52,7 @@ On each viewName you can add several action, action have the following syntax :
    "class" : "{class}",
    "property" : "{property}",
    "operator"  : "{logicalOperator}",
-   "value" : "{value}"
+   "value" : "{value}" /// can be value or an array
 }
 ```
 {attributeToModify} correspond to the css style attribute we want to interact with, here we will act on display to hide or show an object.
@@ -79,7 +79,7 @@ if you don't put property, the action will execute anyway.
 if you put property, the action will execute if {property} {Operator} {value} is true
 "{property}" correspond to the scriptname of property value (don't forget to select it in your objectpage in evolveDesigner)
 "{Operator}"  correspond to the logicalOperator can be : =, <, <=, >, >=, !=
-"{value}" correspond to the value to compare
+"{value}" correspond to the value to compare, you can put several value in an array, if you put several value they will work like a "or"
 
 ## Exemple : 
 
