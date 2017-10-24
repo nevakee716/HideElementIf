@@ -1,10 +1,14 @@
 | **Name** | **HideElementIf** | **Version** | 
 | --- | --- | --- |
-| **Updated by** | Mathias PFAUWADEL | 1.0 |
+| **Updated by** | Mathias PFAUWADEL | 1.4 |
 
 
 ## Patch Notes
 
+* 1.4 : Allow you to change view
+* 1.3 : Manage correctly arrow direction
+* 1.2 : Edit witdh arrow
+* 1.1 : Can use array for properties value
 * 1.0 : 1st version working
 
 ## To be Done
@@ -45,16 +49,32 @@ you can put as many view as you want
 On each viewName you can add several action, action have the following syntax : 
 ```
 {
-   "style": "{style}",
-   "styleValue": "{styleValue}",
+   "action": "{actionType}"
+   "style": "{attributeToModify}",
+   "styleValue": "{newValue}",
    "type" : "{type}", 
    "id" : "{id}",
    "class" : "{class}",
+   "viewName" : "{viewName}"
    "property" : "{property}",
    "operator"  : "{logicalOperator}",
    "value" : "{value}" /// can be value or an array
 }
 ```
+Use only the attribute you need for your action
+
+if you don't put property, the action will execute anyway.
+if you put property, the action will execute if {property} {Operator} {value} is true
+"{property}" correspond to the scriptname of property value (don't forget to select it in your objectpage in evolveDesigner)
+"{Operator}"  correspond to the logicalOperator can be : =, <, <=, >, >=, !=
+"{value}" correspond to the value to compare, you can put several value in an array, if you put several value they will work like a "or"
+
+{actionType} correspond to the action you want to do, you can choose changeStyle or changeView
+
+### Change Style
+
+It will modify the style of an element on your html page
+
 {attributeToModify} correspond to the css style attribute we want to interact with, here we will act on display to hide or show an object.
 {newValue} correspond to the css style value we want to put if the property match, here the value will be "none" if we want to hide an element and "block" if we want to show it.
 
@@ -75,11 +95,13 @@ if you use type tab ,propertygroup ,id or view, you need to put the attribute id
 
 if you use type class, you need to put the attribute class: {class} will describe the className of the HTML element, for exemple, "cw-edit-buttons" correspond to the value of the edit button
 
-if you don't put property, the action will execute anyway.
-if you put property, the action will execute if {property} {Operator} {value} is true
-"{property}" correspond to the scriptname of property value (don't forget to select it in your objectpage in evolveDesigner)
-"{Operator}"  correspond to the logicalOperator can be : =, <, <=, >, >=, !=
-"{value}" correspond to the value to compare, you can put several value in an array, if you put several value they will work like a "or"
+
+### changeURL
+
+It will change the view of your objects, For exemple, if you have 3 differents view for one objectType, if the object is a certain category, you want to display a certain view.
+
+{viewName} correspond to the view you want to go
+
 
 ## Exemple : 
 
@@ -117,7 +139,7 @@ Here we want to hide a specific tab in the objectPage aidearchitecture, if the i
 ```
 {
    "style": "display",
-   "styleValue": "black",
+   "styleValue": "block",
    "type" : "propertyGroup", 
    "id" : "propertyGroup_1961166630",
 },
