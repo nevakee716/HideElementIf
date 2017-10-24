@@ -9,6 +9,7 @@
     hideElementIf.config = {
         "aidedarchitecture" : [
             {
+                "action": "changeStyle",
                 "style": "display",
                 "styleValue": "none",
                 "type" : "tab", 
@@ -16,31 +17,32 @@
                 "property" : "id",
                 "operator"  : "!=",
                 "value" : "82"
+            },
+            {
+                "action": "changeStyle",
+                "style": "list-style-type",
+                "styleValue": "none",
+                "type" : "class", 
+                "class" : "service_innovant_20143_1782297349",
+            },
+            {
+                "action": "changeStyle",
+                "style": "0",
+                "styleValue": "padding-left",
+                "type" : "class", 
+                "class" : "service_innovant_20143_1782297349",
             }
         ],
         "processus" : [
             {
-                "style": "display",
-                "styleValue": "none",
-                "type" : "view", 
-                "id" : "mgenprocessus2",
-            },
-            {
-                "style": "display",
-                "styleValue": "none",
-                "type" : "tab", 
-                "id" : "tab4",
-            },
-            {
-                "style": "display",
-                "styleValue": "block",
-                "type" : "tab", 
-                "id" : "tab4",
-                "property" : "type",
+                "action": "changeView",
+                "viewName" : "processus_solva",
+                "property" : "livre2",
                 "operator"  : "=",
-                "value" : ["Processus","Domaine d'activité"]
+                "value" : true
             },
             {
+                "action": "changeStyle",
                 "style": "display",
                 "styleValue": "none",
                 "type" : "tab", 
@@ -50,12 +52,14 @@
                 "value" : "Processus"
             },
             {
+                "action": "changeStyle",
                 "style": "display",
                 "styleValue": "none",
                 "type" : "tab", 
                 "id" : "tab3",
             },
             {
+                "action": "changeStyle",
                 "style": "display",
                 "styleValue": "block",
                 "type" : "tab", 
@@ -67,6 +71,7 @@
         ],
         "application" : [
             {
+                "action": "changeStyle",
                 "style": "display",
                 "styleValue": "none",
                 "type" : "view", 
@@ -102,7 +107,7 @@
                     doAction = this.isActionToDo(rootNode,config);
                 }
                 if(doAction) {
-                    this.execute(config);
+                    this.execute(config,rootNode);
                 }
             }
         }
@@ -172,27 +177,37 @@
         return false;
     };
 
-    hideElementIf.execute = function(config){
-        if(config.hasOwnProperty("style") && config.hasOwnProperty("styleValue") && config.hasOwnProperty("type") && (config.hasOwnProperty("id")  || config.hasOwnProperty("class")) ) {
-            switch(config.type.toLowerCase()) {
-                case "tab":
-                    this.actionOnId(config.style,config.styleValue,this.viewName + "-tab-" +  config.id);
-                    break;
-                case "propertygroup":
-                    this.actionOnClassAndId(config.style,config.styleValue,"cwPropertiesTableContainer",config.id.toLowerCase());
-                    break;
-                case "class":
-                    this.actionOnClass(config.style,config.styleValue,config.class);
-                    break;
-                case "id":
-                    this.actionOnId(config.style,config.styleValue,config.id);
-                    break;
-                case "view":
-                    this.actionOnId(config.style,config.styleValue,"navview-" + config.id);
-                    break;
-                default:
-                    return false;
-            }
+    hideElementIf.execute = function(config,rootNode){
+        switch(config.action) {
+            case "changeStyle":
+                if(config.hasOwnProperty("style") && config.hasOwnProperty("styleValue") && config.hasOwnProperty("type") && (config.hasOwnProperty("id")  || config.hasOwnProperty("class")) ) {
+                    switch(config.type.toLowerCase()) {
+                        case "tab":
+                            this.actionOnId(config.style,config.styleValue,this.viewName + "-tab-" +  config.id);
+                            break;
+                        case "propertygroup":
+                            this.actionOnClassAndId(config.style,config.styleValue,"cwPropertiesTableContainer",config.id.toLowerCase());
+                            break;
+                        case "class":
+                            this.actionOnClass(config.style,config.styleValue,config.class);
+                            break;
+                        case "id":
+                            this.actionOnId(config.style,config.styleValue,config.id);
+                            break;
+                        case "view":
+                            this.actionOnId(config.style,config.styleValue,"navview-" + config.id);
+                            break;
+                        default:
+                            return false;
+                    }
+                }
+                break;
+            case "changeView":
+                if(config.hasOwnProperty("viewName")) {
+                   this.actionChangeView(config.viewName,rootNode); 
+                }
+            default:
+                return false;
         }
     };
 
@@ -220,6 +235,10 @@
                 elements[i].style[style] = value;               
             }       
         }
+    };
+
+    hideElementIf.actionChangeView = function(view,item){
+        location.href = cwApi.createLinkForSingleView(view,item);
     };
 
 
