@@ -69,15 +69,31 @@
                 "value" : ["Processus","Macro-Processus","Activité"]
             }
         ],
-        "application" : [
+        "mgenapplication" : [
+            {
+                "style": "display",
+                "styleValue": "none",
+                "type" : "view",
+                "id" : "saisie_application",
+            },
+            { // A supprimer pour afficher les liens c4W même si l'objet n'est pas validé
+                "action": "changeStyle",
+                "style": "display",
+                "styleValue": "none",
+                "type" : "class",
+                "class" : "CwPropertiesLayoutHelpText",
+                "property" : "validated",
+                "operator"  : "!=",
+                "value" : true
+            },
             {
                 "action": "changeStyle",
                 "style": "display",
                 "styleValue": "none",
-                "type" : "view", 
-                "id" : "saisie_application",
+                "type" : "class",
+                "class" : "fa-question-circle",
             }
-        ]
+        ],
     };
 
     /********************************************************************************
@@ -105,6 +121,8 @@
                 var config = this.config[this.viewName][i];
                 if(config.hasOwnProperty("property") && config.hasOwnProperty("operator") && config.hasOwnProperty("value")) {
                     doAction = this.isActionToDo(rootNode,config);
+                } else {
+                    doAction = true;
                 }
                 if(doAction) {
                     this.execute(config,rootNode);
