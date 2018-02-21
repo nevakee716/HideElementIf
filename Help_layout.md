@@ -1,10 +1,11 @@
 | **Name** | **HideElementIf** | **Version** | 
 | --- | --- | --- |
-| **Updated by** | Mathias PFAUWADEL | 1.4 |
+| **Updated by** | Mathias PFAUWADEL | 1.5 |
 
 
 ## Patch Notes
 
+* 1.4 : Adding jquery
 * 1.2 : Allow you to change view
 * 1.0 : 1st version working
 
@@ -50,6 +51,7 @@ On each viewName you can add several action, action have the following syntax :
    "style": "{attributeToModify}",
    "styleValue": "{newValue}",
    "type" : "{type}", 
+   "query" : "{query}", 
    "id" : "{id}",
    "class" : "{class}",
    "viewName" : "{viewName}"
@@ -81,6 +83,7 @@ It will modify the style of an element on your html page
  - "class": correspond to the class of HTML elements
  - "id" : correspond to the id of HTML elements
  - "view": correspond to another view for exemple on an objectpage, you can have 2 views and you want to display only one.
+ - "jQuerySelector" : correspond to the Html Element that fit that query
 
 if you use type tab ,propertygroup ,id or view, you need to put the attribute id : 
 - {id} correspond to the html id, if you use type = id
@@ -91,6 +94,8 @@ if you use type tab ,propertygroup ,id or view, you need to put the attribute id
 <img src="https://raw.githubusercontent.com/nevakee716/HideElementIf/master/screen/3.jpg" alt="Drawing" style="width: 95%;"/>
 
 if you use type class, you need to put the attribute class: {class} will describe the className of the HTML element, for exemple, "cw-edit-buttons" correspond to the value of the edit button
+
+if you use type jQuerySelector, you need to put the attribute query: {query} correspond to the jquery
 
 
 ### changeURL
