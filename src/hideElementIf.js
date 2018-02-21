@@ -7,94 +7,25 @@
 
     var hideElementIf = {};
     hideElementIf.config = {
-        "aidedarchitecture" : [
+        "process" : [
             {
-                "action": "changeStyle",
                 "style": "display",
-                "styleValue": "none",
-                "type" : "tab", 
-                "id" : "tab5",
-                "property" : "id",
-                "operator"  : "!=",
-                "value" : "82"
-            },
-            {
-                "action": "changeStyle",
-                "style": "list-style-type",
                 "styleValue": "none",
                 "type" : "class", 
-                "class" : "service_innovant_20143_1782297349",
-            },
-            {
-                "action": "changeStyle",
-                "style": "0",
-                "styleValue": "padding-left",
-                "type" : "class", 
-                "class" : "service_innovant_20143_1782297349",
-            }
-        ],
-        "processus" : [
-            {
-                "action": "changeView",
-                "viewName" : "processus_solva",
-                "property" : "livre2",
-                "operator"  : "=",
-                "value" : true
-            },
-            {
-                "action": "changeStyle",
-                "style": "display",
-                "styleValue": "none",
-                "type" : "tab", 
-                "id" : "tab7",
-                "property" : "type",
-                "operator"  : "!=",
-                "value" : "Processus"
-            },
-            {
-                "action": "changeStyle",
-                "style": "display",
-                "styleValue": "none",
-                "type" : "tab", 
-                "id" : "tab3",
-            },
-            {
-                "action": "changeStyle",
-                "style": "display",
-                "styleValue": "block",
-                "type" : "tab", 
-                "id" : "tab3",
-                "property" : "type",
-                "operator"  : "=",
-                "value" : ["Processus","Macro-Processus","Activité"]
-            }
-        ],
-        "mgenapplication" : [
-            {
-                "style": "display",
-                "styleValue": "none",
-                "type" : "view",
-                "id" : "saisie_application",
-            },
-            { // A supprimer pour afficher les liens c4W même si l'objet n'est pas validé
-                "action": "changeStyle",
-                "style": "display",
-                "styleValue": "none",
-                "type" : "class",
-                "class" : "CwPropertiesLayoutHelpText",
-                "property" : "validated",
-                "operator"  : "!=",
-                "value" : true
-            },
-            {
-                "action": "changeStyle",
-                "style": "display",
-                "styleValue": "none",
-                "type" : "class",
                 "class" : "fa-question-circle",
+            },
+            {
+                "style": "display",
+                "styleValue": "none",
+                "type" : "jQuerySelector",
+                "query" : "[id^='pg-propertygroup_276146927']",
+                "property" : "validated",
+                "operator"  : "=",
+                "value" : true
             }
         ],
     };
+
 
     /********************************************************************************
     Custom Action for Single Page : See Impact here http://bit.ly/2qy5bvB
@@ -118,14 +49,13 @@
         var doAction = true;
         if(this.config && this.config.hasOwnProperty(this.viewName)) {
             for (var i = 0; i < this.config[this.viewName].length; i += 1) {
-                var config = this.config[this.viewName][i];
-                if(config.hasOwnProperty("property") && config.hasOwnProperty("operator") && config.hasOwnProperty("value")) {
-                    doAction = this.isActionToDo(rootNode,config);
-                } else {
-                    doAction = true;
+                doAction = true;
+                var tempConfig = this.config[this.viewName][i];
+                if(tempConfig.hasOwnProperty("property") && tempConfig.hasOwnProperty("operator") && tempConfig.hasOwnProperty("value")) {
+                    doAction = this.isActionToDo(rootNode,tempConfig);
                 }
                 if(doAction) {
-                    this.execute(config,rootNode);
+                    this.execute(tempConfig);
                 }
             }
         }
@@ -195,37 +125,30 @@
         return false;
     };
 
-    hideElementIf.execute = function(config,rootNode){
-        switch(config.action) {
-            case "changeStyle":
-                if(config.hasOwnProperty("style") && config.hasOwnProperty("styleValue") && config.hasOwnProperty("type") && (config.hasOwnProperty("id")  || config.hasOwnProperty("class")) ) {
-                    switch(config.type.toLowerCase()) {
-                        case "tab":
-                            this.actionOnId(config.style,config.styleValue,this.viewName + "-tab-" +  config.id);
-                            break;
-                        case "propertygroup":
-                            this.actionOnClassAndId(config.style,config.styleValue,"cwPropertiesTableContainer",config.id.toLowerCase());
-                            break;
-                        case "class":
-                            this.actionOnClass(config.style,config.styleValue,config.class);
-                            break;
-                        case "id":
-                            this.actionOnId(config.style,config.styleValue,config.id);
-                            break;
-                        case "view":
-                            this.actionOnId(config.style,config.styleValue,"navview-" + config.id);
-                            break;
-                        default:
-                            return false;
-                    }
-                }
-                break;
-            case "changeView":
-                if(config.hasOwnProperty("viewName")) {
-                   this.actionChangeView(config.viewName,rootNode); 
-                }
-            default:
-                return false;
+    hideElementIf.execute = function(config){
+        if(config.hasOwnProperty("style") && config.hasOwnProperty("styleValue") && config.hasOwnProperty("type") && (config.hasOwnProperty("id")  || config.hasOwnProperty("class") || config.hasOwnProperty("query")) ) {
+            switch(config.type.toLowerCase()) {
+                case "tab":
+                    this.actionOnId(config.style,config.styleValue,this.viewName + "-tab-" +  config.id);
+                    break;
+                case "jqueryselector": 
+                    this.actionWithQuery(config.style,config.styleValue,config.query);
+                    break;                  
+                case "propertygroup":
+                    this.actionOnClassAndId(config.style,config.styleValue,"cwPropertiesTableContainer",config.id.toLowerCase());
+                    break;
+                case "class":
+                    this.actionOnClass(config.style,config.styleValue,config.class);
+                    break;
+                case "id":
+                    this.actionOnId(config.style,config.styleValue,config.id);
+                    break;
+                case "view":
+                    this.actionOnId(config.style,config.styleValue,"navview-" + config.id);
+                    break;
+                default:
+                    return false;
+            }
         }
     };
 
@@ -237,7 +160,16 @@
             elements[i].style[style] = value;               
         }
     };
-    
+ 
+    hideElementIf.actionWithQuery = function(style,value,query){
+        try {
+            $(query).css(style,value);            
+        } catch(e) {
+            console.log(e);
+        }
+
+    };
+
     hideElementIf.actionOnId = function(style,value,id){
         var element = document.getElementById(id);
         if(element && element.style) {
@@ -253,10 +185,6 @@
                 elements[i].style[style] = value;               
             }       
         }
-    };
-
-    hideElementIf.actionChangeView = function(view,item){
-        location.href = cwApi.createLinkForSingleView(view,item);
     };
 
 

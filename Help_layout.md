@@ -5,10 +5,7 @@
 
 ## Patch Notes
 
-* 1.4 : Allow you to change view
-* 1.3 : Manage correctly arrow direction
-* 1.2 : Edit witdh arrow
-* 1.1 : Can use array for properties value
+* 1.2 : Allow you to change view
 * 1.0 : 1st version working
 
 ## To be Done
@@ -67,7 +64,7 @@ if you don't put property, the action will execute anyway.
 if you put property, the action will execute if {property} {Operator} {value} is true
 "{property}" correspond to the scriptname of property value (don't forget to select it in your objectpage in evolveDesigner)
 "{Operator}"  correspond to the logicalOperator can be : =, <, <=, >, >=, !=
-"{value}" correspond to the value to compare, you can put several value in an array, if you put several value they will work like a "or"
+"{value}" correspond to the value to compare, you can put several value in an array, if you put several value they will work like a "or". If you want to use a checkbox, you need to put true and not "true"
 
 {actionType} correspond to the action you want to do, you can choose changeStyle or changeView
 
