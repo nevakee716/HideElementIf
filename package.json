@@ -1,6 +1,6 @@
 {
   "name": "HideElementIf",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Allow you to element(tab,propertygroup) on an objectPage according to property value",
   "main": "src/hideElementIf.js",
   "scripts": {
