@@ -46,6 +46,19 @@
                 "id" : ["pia_evaluateur"]
             }
         ],
+        "pia_modification" : [
+            {
+                "style": "display",
+                "styleValue": "none",
+                "type" : "view",
+                "id" : ["pia","pia_creation","pia_validation","pia_evaluateur"]
+            }, {
+                "style": "display",
+                "styleValue": "list-item",
+                "type" : "view",
+                "id" : ["pia_modification"]
+            }
+        ],
         "process" : [
             {
                 "style": "display",
