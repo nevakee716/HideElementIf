@@ -7,6 +7,45 @@
 
     var hideElementIf = {};
     hideElementIf.config = {
+        "pia" : [
+            {
+                "style": "display",
+                "styleValue": "none",
+                "type" : "view",
+                "id" : ["pia_evaluateur","pia_creation","pia_validation","pia_modification"]
+            }, {
+                "style": "display",
+                "styleValue": "list-item",
+                "type" : "view",
+                "id" : ["pia"]
+            }
+        ],
+        "pia_validation" : [
+            {
+                "style": "display",
+                "styleValue": "none",
+                "type" : "view",
+                "id" : ["pia_evaluateur","pia_creation","pia","pia_modification"]
+            }, {
+                "style": "display",
+                "styleValue": "list-item",
+                "type" : "view",
+                "id" : ["pia_validation"]
+            }
+        ],
+        "pia_evaluateur" : [
+            {
+                "style": "display",
+                "styleValue": "none",
+                "type" : "view",
+                "id" : ["pia","pia_creation","pia_validation","pia_modification"]
+            }, {
+                "style": "display",
+                "styleValue": "list-item",
+                "type" : "view",
+                "id" : ["pia_evaluateur"]
+            }
+        ],
         "process" : [
             {
                 "style": "display",
@@ -17,11 +56,11 @@
             {
                 "style": "display",
                 "styleValue": "none",
-                "type" : "jQuerySelector",
-                "query" : "[id^='pg-propertygroup_276146927']",
-                "property" : "validated",
+                "type" : "view",
+                "id" : "process_gdpr",
+                "property" : "critiquepourréglementationsrgpd",
                 "operator"  : "=",
-                "value" : true
+                "value" : false
             }
         ],
     };
@@ -125,26 +164,59 @@
         return false;
     };
 
+
+
     hideElementIf.execute = function(config){
+
+
+        var self = this;
+
+        function doForElementOrArray(elem,callback) {
+            if(Array.isArray(elem))  {
+                for (var i = 0; i < elem.length; i += 1) {
+                   callback(elem[i]);
+                }
+            } else {
+                callback(elem);
+            }
+        };
+
+        
+
         if(config.hasOwnProperty("style") && config.hasOwnProperty("styleValue") && config.hasOwnProperty("type") && (config.hasOwnProperty("id")  || config.hasOwnProperty("class") || config.hasOwnProperty("query")) ) {
             switch(config.type.toLowerCase()) {
                 case "tab":
-                    this.actionOnId(config.style,config.styleValue,this.viewName + "-tab-" +  config.id);
+                    doForElementOrArray(config.id,function(id){
+                        self.actionOnId(config.style,config.styleValue,this.viewName + "-tab-" +  id);
+                    });
                     break;
                 case "jqueryselector": 
-                    this.actionWithQuery(config.style,config.styleValue,config.query);
+                    doForElementOrArray(config.query,function(q){
+                        self.actionWithQuery(config.style,config.styleValue,q);
+                    });
                     break;                  
                 case "propertygroup":
-                    this.actionOnClassAndId(config.style,config.styleValue,"cwPropertiesTableContainer",config.id.toLowerCase());
+                    doForElementOrArray(config.id,function(id){
+                        self.actionOnClassAndId(config.style,config.styleValue,"cwPropertiesTableContainer",id.toLowerCase());
+                    });
                     break;
                 case "class":
-                    this.actionOnClass(config.style,config.styleValue,config.class);
+                    doForElementOrArray(config.class,function(c){
+                        self.actionOnClass(config.style,config.styleValue,c);
+                    });
                     break;
                 case "id":
-                    this.actionOnId(config.style,config.styleValue,config.id);
+                    doForElementOrArray(config.id,function(id){
+                       self.actionOnId(config.style,config.styleValue,id);
+                    });
+                    
                     break;
                 case "view":
-                    this.actionOnId(config.style,config.styleValue,"navview-" + config.id);
+                    doForElementOrArray(config.id,function(id){
+                        self.actionOnId(config.style,config.styleValue,"navview-" + id);
+                    });
+
+                    
                     break;
                 default:
                     return false;
@@ -171,6 +243,7 @@
     };
 
     hideElementIf.actionOnId = function(style,value,id){
+
         var element = document.getElementById(id);
         if(element && element.style) {
             element.style[style] = value;               
