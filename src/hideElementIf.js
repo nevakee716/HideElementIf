@@ -281,5 +281,6 @@
     if(cwAPI.customLibs === undefined) { cwAPI.customLibs = {};}
     if(cwAPI.customLibs.doActionForSingle === undefined) { cwAPI.customLibs.doActionForSingle = {};}
     cwAPI.customLibs.doActionForSingle.hideElementIf = hideElementIf.do.bind(hideElementIf); 
-
+    cwAPI.customLibs.isActionToDo = hideElementIf.isActionToDo.bind(hideElementIf); 
+    
 }(cwAPI, jQuery));
