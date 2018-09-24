@@ -69,11 +69,31 @@
             {
                 "style": "display",
                 "styleValue": "none",
-                "type" : "view",
-                "id" : "process_gdpr",
-                "property" : "critiquepourréglementationsrgpd",
+                "type" : "class",
+                "class" : "cwTabLink",
+                "property" : "validated",
                 "operator"  : "=",
-                "value" : false
+                "value" : false,
+                "nonActiveRole" : [2,3,4,5]
+            },
+            {
+                "style": "display",
+                "styleValue": "none",
+                "type" : "class",
+                "class" : "diagramme_1810699244",
+                "property" : "validated",
+                "operator"  : "=",
+                "value" : false,
+                "nonActiveRole" : [2,3,4,5]
+            },
+            {
+                "style": "display",
+                "styleValue": "none",
+                "type" : "jqueryselector",
+                "query" : "[id^=pg-propertygroup_500624039]",
+                "property" : "validated",
+                "operator"  : "=",
+                "value" : true
             }
         ],
     };
@@ -116,6 +136,13 @@
     hideElementIf.isActionToDo = function(rootNode,config){
         if(rootNode) {
             var objPropertyValue;
+            if(config.nonActiveRole) {
+                var currentUser = cwApi.currentUser;
+                for (var i = 0; i < currentUser.RolesId.length; i++) {
+                    if(config.nonActiveRole.indexOf(currentUser.RolesId[i]) !== -1) return false;
+                };                  
+            }
+
             if(config.property == "id") {
                 objPropertyValue = rootNode.object_id;
             } else {
@@ -200,7 +227,7 @@
             switch(config.type.toLowerCase()) {
                 case "tab":
                     doForElementOrArray(config.id,function(id){
-                        self.actionOnId(config.style,config.styleValue,this.viewName + "-tab-" +  id);
+                        self.actionOnId(config.style,config.styleValue,self.viewName + "-tab-" +  id);
                     });
                     break;
                 case "jqueryselector": 
